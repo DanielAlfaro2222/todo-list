@@ -1,12 +1,11 @@
 {
     "compilerOptions": {
-        "target": "es6", // Determinar a que especificacion de ecmascript le vamos a dar soporte
+        "target": "ES2022", // Determinar a que especificacion de ecmascript le vamos a dar soporte
         "removeComments": true,
         "experimentalDecorators": true, // Permitir los decoradores experimentales.
         "watch": true, // Compilar automaticamente los archivos a js
         "rootDir": "src", // Especificar cual es el directorio raiz donde se encuentra los archivos de typescript
         "outDir": "./dist", // Es el directorio donde estara el codigo compilado
-        "noImplicitAny": true,
         "lib": [
             "ES2022",
             "dom"

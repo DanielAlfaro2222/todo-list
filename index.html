@@ -4,11 +4,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do list</title>
+    <link rel="stylesheet" href="https://res.cloudinary.com/dpxek6oka/raw/upload/v1643485116/normalize_ej2ndq.css">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,400;1,200;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dpxek6oka/image/upload/v1654886081/Portafolio/favicon_zv3bst.ico" type="image/x-icon">
+    <title>Todo App</title>
 </head>
 <body>
-    
+    <header>
+        <h1>Todo App</h1>
+    </header>
 
+    <main>
+        <article>
+            <form id="form-add-tarea" method="post">
+                <input type="text" placeholder="Nombre de la tarea..." name="nombre">
+
+                <button>Agregar tarea</button>
+            </form>
+        </article>
+
+        <article id="container-list-tareas"></article>
+
+        <article>
+            <p>Tienes 0 tareas pendientes</p>
+
+            <button id="btn-clear">Eliminar todo</button>
+        </article>
+    </main>
+
+    <footer>
+        <p>
+            Creado por <a href="https://github.com/DanielAlfaro2222?tab=repositories">
+                Daniel Alfaro
+            </a>
+        </p>
+    </footer>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="./dist/index.js"></script>
 </body>
 </html>
