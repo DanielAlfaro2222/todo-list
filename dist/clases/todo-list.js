@@ -1,25 +1,19 @@
 import { Tarea } from './tarea.js';
 export { TodoList };
-
 class TodoList {
-    protected tareas: Tarea[];
-    protected contenedor: HTMLElement;
-
-    constructor(contenedor: HTMLElement, tareas: Tarea[]) {
+    tareas;
+    contenedor;
+    constructor(contenedor, tareas) {
         this.tareas = tareas;
         this.contenedor = contenedor;
     }
-
-    get obtenerTareas(): Tarea[] {
+    get obtenerTareas() {
         return this.tareas;
     }
-
-    listarTareas(): void {
+    listarTareas() {
         this.contenedor.innerHTML = '';
-
         for (let tarea of this.tareas) {
-            const button: HTMLElement = document.createElement('button');
-
+            const button = document.createElement('button');
             button.addEventListener('click', () => {
                 Swal.fire({
                     title: '¿Estas seguro de eliminar esta tarea?',
@@ -33,45 +27,28 @@ class TodoList {
                     if (result.isConfirmed) {
                         this.eliminarTarea(tarea.id);
                         this.listarTareas();
-
-                        Swal.fire(
-                            'Tarea eliminada con exito',
-                            '',
-                            'success'
-                        )
+                        Swal.fire('Tarea eliminada con exito', '', 'success');
                     }
-                })
-            })
-
+                });
+            });
             button.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
-
-            const section: HTMLElement = document.createElement('section');
-
+            const section = document.createElement('section');
             section.textContent = tarea.nombre;
-
             section.appendChild(button);
-
             this.contenedor.appendChild(section);
         }
     }
-
-    agregarTarea(nombre: string): Tarea {
-        const tarea: Tarea = new Tarea(nombre);
-
+    agregarTarea(nombre) {
+        const tarea = new Tarea(nombre);
         this.tareas.push(tarea);
-
         return tarea;
     }
-
-    modificarTarea(id: string): void {
-
+    modificarTarea(id) {
     }
-
-    eliminarTarea(id: string): void {
+    eliminarTarea(id) {
         this.tareas = this.tareas.filter(tarea => tarea.id !== id);
     }
-
-    eliminarTodo(): void {
+    eliminarTodo() {
         this.tareas = [];
     }
 }

@@ -1,31 +1,19 @@
 import { TodoList } from "./clases/todo-list.js";
 import { actualizarAlmacenamiento } from "./helpers/actualizar-almacenamiento.js";
 import { getOrCreateWorks } from "./helpers/obtener-o-crear-tareas.js";
-
-const $containerListTareas: HTMLElement = document.getElementById('container-list-tareas');
-const todoList: TodoList = new TodoList($containerListTareas, JSON.parse(getOrCreateWorks()));
-
+const $containerListTareas = document.getElementById('container-list-tareas');
+const todoList = new TodoList($containerListTareas, JSON.parse(getOrCreateWorks()));
 todoList.listarTareas();
-
-const $formAgregarTarea: any = document.getElementById('form-add-tarea');
-const $buttonClear: HTMLElement = document.getElementById('btn-clear');
-
-// Agregar tarea
-$formAgregarTarea.addEventListener('submit', (event: Event) => {
+const $formAgregarTarea = document.getElementById('form-add-tarea');
+const $buttonClear = document.getElementById('btn-clear');
+$formAgregarTarea.addEventListener('submit', (event) => {
     event.preventDefault();
-
-    const datos: FormData = new FormData(event.currentTarget as HTMLFormElement);
-
-    const nombreTarea: FormDataEntryValue = datos.get('nombre');
-
+    const datos = new FormData(event.currentTarget);
+    const nombreTarea = datos.get('nombre');
     $formAgregarTarea.childNodes[1].value = '';
-
     todoList.agregarTarea(nombreTarea.toString());
-
     actualizarAlmacenamiento(todoList.obtenerTareas);
-
     todoList.listarTareas();
-
     Swal.fire({
         position: 'center',
         icon: 'success',
@@ -33,8 +21,6 @@ $formAgregarTarea.addEventListener('submit', (event: Event) => {
         showConfirmButton: true,
     });
 });
-
-// Eliminar todo
 $buttonClear.addEventListener('click', () => {
     Swal.fire({
         title: '¿Estas seguro de eliminar todo?',
@@ -49,12 +35,7 @@ $buttonClear.addEventListener('click', () => {
             todoList.eliminarTodo();
             actualizarAlmacenamiento(todoList.obtenerTareas);
             todoList.listarTareas();
-
-            Swal.fire(
-                'Tareas eliminadas con exito',
-                '',
-                'success'
-            )
+            Swal.fire('Tareas eliminadas con exito', '', 'success');
         }
-    })
+    });
 });
