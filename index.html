@@ -15,29 +15,33 @@
     <title>Todo App</title>
 </head>
 <body>
-    <header>
-        <h1>Todo App</h1>
-    </header>
+    <main class="main">
+        <header class="header">
+            <h1>Todo App</h1>
+        </header>
 
-    <main>
         <article>
+            <h2>Agregar tarea</h2>
             <form id="form-add-tarea" method="post">
-                <input type="text" placeholder="Nombre de la tarea..." name="nombre">
+                <input type="text" placeholder="Nombre de la tarea..." name="nombre" autofocus>
 
                 <button>Agregar tarea</button>
             </form>
         </article>
 
-        <article id="container-list-tareas"></article>
-
         <article>
-            <p>Tienes 0 tareas pendientes</p>
+            <h2>Tareas</h2>
+            <div id="container-list-tareas"></div>
+        </article>
+
+        <article class="container-works-pending">
+            <p id="quantity-tareas-pendientes">Tienes 0 tareas pendientes</p>
 
             <button id="btn-clear">Eliminar todo</button>
         </article>
     </main>
 
-    <footer>
+    <footer class="footer">
         <p>
             Creado por <a href="https://github.com/DanielAlfaro2222?tab=repositories">
                 Daniel Alfaro

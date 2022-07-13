@@ -15,4 +15,8 @@ class Tarea {
         this.finalizada = false;
         this.fechaFinalizacion = null;
     }
+
+    get tareaFinalizada(): boolean {
+        return this.finalizada;
+    }
 }

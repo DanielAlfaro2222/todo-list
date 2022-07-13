@@ -1,3 +1,4 @@
+import { actualizarAlmacenamiento } from '../helpers/actualizar-almacenamiento.js';
 import { Tarea } from './tarea.js';
 export { TodoList };
 class TodoList {
@@ -10,11 +11,17 @@ class TodoList {
     get obtenerTareas() {
         return this.tareas;
     }
+    get obtenerTareasPendientes() {
+        return this.tareas.filter(tarea => !tarea.tareaFinalizada);
+    }
     listarTareas() {
         this.contenedor.innerHTML = '';
+        let counter = 1;
         for (let tarea of this.tareas) {
-            const button = document.createElement('button');
-            button.addEventListener('click', () => {
+            const buttonDelet = document.createElement('button');
+            const buttonEdit = document.createElement('button');
+            const section = document.createElement('section');
+            buttonDelet.addEventListener('click', () => {
                 Swal.fire({
                     title: '¿Estas seguro de eliminar esta tarea?',
                     text: "Esto no se podra revertir",
@@ -31,11 +38,16 @@ class TodoList {
                     }
                 });
             });
-            button.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
-            const section = document.createElement('section');
-            section.textContent = tarea.nombre;
-            section.appendChild(button);
+            buttonEdit.addEventListener('click', () => {
+                this.modificarTarea(tarea.id);
+            });
+            buttonDelet.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
+            buttonEdit.innerHTML = '<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>';
+            section.textContent = `${counter}. ${tarea.nombre} `;
+            section.append(buttonEdit, buttonDelet);
             this.contenedor.appendChild(section);
+            this.mostrarCantidadTareasPendientes();
+            counter++;
         }
     }
     agregarTarea(nombre) {
@@ -47,8 +59,17 @@ class TodoList {
     }
     eliminarTarea(id) {
         this.tareas = this.tareas.filter(tarea => tarea.id !== id);
+        actualizarAlmacenamiento(this.obtenerTareas);
     }
     eliminarTodo() {
         this.tareas = [];
+        this.mostrarCantidadTareasPendientes();
+    }
+    mostrarCantidadTareasPendientes() {
+        const quantity = this.obtenerTareasPendientes.length;
+        document.getElementById('quantity-tareas-pendientes').textContent = `Tienes ${quantity} tareas pendientes`;
+    }
+    verificarTareaExiste(nombre) {
+        return Boolean(this.tareas.find(tarea => tarea.nombre.toLocaleLowerCase() === nombre));
     }
 }

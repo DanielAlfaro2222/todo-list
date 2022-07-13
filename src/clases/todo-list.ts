@@ -1,3 +1,4 @@
+import { actualizarAlmacenamiento } from '../helpers/actualizar-almacenamiento.js';
 import { Tarea } from './tarea.js';
 export { TodoList };
 
@@ -14,13 +15,20 @@ class TodoList {
         return this.tareas;
     }
 
+    get obtenerTareasPendientes(): Tarea[] {
+        return this.tareas.filter(tarea => !tarea.tareaFinalizada);
+    }
+
     listarTareas(): void {
         this.contenedor.innerHTML = '';
+        let counter: number = 1;
 
         for (let tarea of this.tareas) {
-            const button: HTMLElement = document.createElement('button');
+            const buttonDelet: HTMLElement = document.createElement('button');
+            const buttonEdit: HTMLElement = document.createElement('button');
+            const section: HTMLElement = document.createElement('section');
 
-            button.addEventListener('click', () => {
+            buttonDelet.addEventListener('click', () => {
                 Swal.fire({
                     title: '¿Estas seguro de eliminar esta tarea?',
                     text: "Esto no se podra revertir",
@@ -43,15 +51,23 @@ class TodoList {
                 })
             })
 
-            button.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
+            buttonEdit.addEventListener('click', () => {
+                this.modificarTarea(tarea.id);
+            });
 
-            const section: HTMLElement = document.createElement('section');
+            buttonDelet.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
 
-            section.textContent = tarea.nombre;
+            buttonEdit.innerHTML = '<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>';
 
-            section.appendChild(button);
+            section.textContent = `${counter}. ${tarea.nombre} `;
+
+            section.append(buttonEdit, buttonDelet);
 
             this.contenedor.appendChild(section);
+
+            this.mostrarCantidadTareasPendientes();
+
+            counter++;
         }
     }
 
@@ -69,9 +85,21 @@ class TodoList {
 
     eliminarTarea(id: string): void {
         this.tareas = this.tareas.filter(tarea => tarea.id !== id);
+        actualizarAlmacenamiento(this.obtenerTareas);
     }
 
     eliminarTodo(): void {
         this.tareas = [];
+        this.mostrarCantidadTareasPendientes();
+    }
+
+    mostrarCantidadTareasPendientes(): void {
+        const quantity: number = this.obtenerTareasPendientes.length;
+
+        document.getElementById('quantity-tareas-pendientes').textContent = `Tienes ${quantity} tareas pendientes`;
+    }
+
+    verificarTareaExiste(nombre: string): boolean {
+        return Boolean(this.tareas.find(tarea => tarea.nombre.toLocaleLowerCase() === nombre));
     }
 }

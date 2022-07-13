@@ -16,22 +16,38 @@ $formAgregarTarea.addEventListener('submit', (event: Event) => {
 
     const datos: FormData = new FormData(event.currentTarget as HTMLFormElement);
 
-    const nombreTarea: FormDataEntryValue = datos.get('nombre');
+    const nombreTarea: string = datos.get('nombre').toString().trim();
 
-    $formAgregarTarea.childNodes[1].value = '';
+    if (nombreTarea === '') {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Debe ingresar un valor valido',
+            showConfirmButton: true,
+        });
+    } else if (todoList.verificarTareaExiste(nombreTarea.toLocaleLowerCase())) {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'La tarea ya existe',
+            showConfirmButton: true,
+        });
+    } else {
+        $formAgregarTarea.childNodes[1].value = '';
 
-    todoList.agregarTarea(nombreTarea.toString());
+        todoList.agregarTarea(nombreTarea.toString());
 
-    actualizarAlmacenamiento(todoList.obtenerTareas);
+        actualizarAlmacenamiento(todoList.obtenerTareas);
 
-    todoList.listarTareas();
+        todoList.listarTareas();
 
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Tarea agregada con exito',
-        showConfirmButton: true,
-    });
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Tarea agregada con exito',
+            showConfirmButton: true,
+        });
+    }
 });
 
 // Eliminar todo

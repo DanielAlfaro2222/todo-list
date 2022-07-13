@@ -9,17 +9,35 @@ const $buttonClear = document.getElementById('btn-clear');
 $formAgregarTarea.addEventListener('submit', (event) => {
     event.preventDefault();
     const datos = new FormData(event.currentTarget);
-    const nombreTarea = datos.get('nombre');
-    $formAgregarTarea.childNodes[1].value = '';
-    todoList.agregarTarea(nombreTarea.toString());
-    actualizarAlmacenamiento(todoList.obtenerTareas);
-    todoList.listarTareas();
-    Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Tarea agregada con exito',
-        showConfirmButton: true,
-    });
+    const nombreTarea = datos.get('nombre').toString().trim();
+    if (nombreTarea === '') {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Debe ingresar un valor valido',
+            showConfirmButton: true,
+        });
+    }
+    else if (todoList.verificarTareaExiste(nombreTarea.toLocaleLowerCase())) {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'La tarea ya existe',
+            showConfirmButton: true,
+        });
+    }
+    else {
+        $formAgregarTarea.childNodes[1].value = '';
+        todoList.agregarTarea(nombreTarea.toString());
+        actualizarAlmacenamiento(todoList.obtenerTareas);
+        todoList.listarTareas();
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Tarea agregada con exito',
+            showConfirmButton: true,
+        });
+    }
 });
 $buttonClear.addEventListener('click', () => {
     Swal.fire({
