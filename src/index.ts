@@ -3,7 +3,7 @@ import { actualizarAlmacenamiento } from "./helpers/actualizar-almacenamiento.js
 import { getOrCreateWorks } from "./helpers/obtener-o-crear-tareas.js";
 
 const $containerListTareas: HTMLElement = document.getElementById('container-list-tareas');
-const todoList: TodoList = new TodoList($containerListTareas, JSON.parse(getOrCreateWorks()));
+const todoList: TodoList = new TodoList($containerListTareas, getOrCreateWorks());
 
 todoList.listarTareas();
 
@@ -35,7 +35,7 @@ $formAgregarTarea.addEventListener('submit', (event: Event) => {
     } else {
         $formAgregarTarea.childNodes[1].value = '';
 
-        todoList.agregarTarea(nombreTarea.toString());
+        todoList.agregarTarea(nombreTarea);
 
         actualizarAlmacenamiento(todoList.obtenerTareas);
 

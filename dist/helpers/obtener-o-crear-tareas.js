@@ -1,9 +1,9 @@
 export { getOrCreateWorks };
 function getOrCreateWorks() {
-    let listadoTareas = window.localStorage.getItem('tareas');
-    if (listadoTareas === null) {
-        listadoTareas = [];
-        window.localStorage.setItem('tareas', JSON.stringify(listadoTareas));
+    let listadoTareas = [];
+    for (let key of Object.keys(window.localStorage)) {
+        let tarea = window.localStorage.getItem(key);
+        listadoTareas.push(JSON.parse(tarea));
     }
     return listadoTareas;
 }

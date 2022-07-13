@@ -1,4 +1,6 @@
 export { actualizarAlmacenamiento };
 function actualizarAlmacenamiento(tareas) {
-    window.localStorage.setItem('tareas', JSON.stringify(tareas));
+    tareas.forEach(tarea => {
+        window.localStorage.setItem(tarea.id, JSON.stringify(tarea));
+    });
 }

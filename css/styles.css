@@ -38,3 +38,7 @@ body {
         width: 700px;
     }
 }
+
+.hide {
+    display: none;
+}

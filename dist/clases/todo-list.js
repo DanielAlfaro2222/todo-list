@@ -12,7 +12,7 @@ class TodoList {
         return this.tareas;
     }
     get obtenerTareasPendientes() {
-        return this.tareas.filter(tarea => !tarea.tareaFinalizada);
+        return this.tareas.filter(tarea => !tarea.finalizada);
     }
     listarTareas() {
         this.contenedor.innerHTML = '';
@@ -38,13 +38,19 @@ class TodoList {
                     }
                 });
             });
-            buttonEdit.addEventListener('click', () => {
-                this.modificarTarea(tarea.id);
-            });
             buttonDelet.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
             buttonEdit.innerHTML = '<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>';
-            section.textContent = `${counter}. ${tarea.nombre} `;
+            section.innerHTML = `${counter}. ${tarea.nombre} <input type="checkbox" class="tarea-completada" ${(tarea.finalizada) ? "checked='true'" : ""}></input>`;
+            section.querySelector('.tarea-completada').addEventListener('click', () => {
+                this.completarTarea(tarea.id);
+            });
             section.append(buttonEdit, buttonDelet);
+            buttonEdit.addEventListener('click', () => {
+                buttonDelet.classList.add('hide');
+                buttonEdit.classList.add('hide');
+                section.querySelector('.tarea-completada').classList.add('hide');
+                this.modificarTarea(tarea.id);
+            });
             this.contenedor.appendChild(section);
             this.mostrarCantidadTareasPendientes();
             counter++;
@@ -56,6 +62,22 @@ class TodoList {
         return tarea;
     }
     modificarTarea(id) {
+    }
+    completarTarea(id) {
+        for (let tarea of this.tareas) {
+            if (tarea.id === id) {
+                if (tarea.finalizada) {
+                    tarea.finalizada = false;
+                    tarea.fechaFinalizacion = null;
+                }
+                else {
+                    tarea.finalizada = true;
+                    tarea.fechaFinalizacion = new Date();
+                }
+            }
+        }
+        this.listarTareas();
+        actualizarAlmacenamiento(this.obtenerTareas);
     }
     eliminarTarea(id) {
         this.tareas = this.tareas.filter(tarea => tarea.id !== id);

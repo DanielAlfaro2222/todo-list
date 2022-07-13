@@ -2,7 +2,7 @@ import { TodoList } from "./clases/todo-list.js";
 import { actualizarAlmacenamiento } from "./helpers/actualizar-almacenamiento.js";
 import { getOrCreateWorks } from "./helpers/obtener-o-crear-tareas.js";
 const $containerListTareas = document.getElementById('container-list-tareas');
-const todoList = new TodoList($containerListTareas, JSON.parse(getOrCreateWorks()));
+const todoList = new TodoList($containerListTareas, getOrCreateWorks());
 todoList.listarTareas();
 const $formAgregarTarea = document.getElementById('form-add-tarea');
 const $buttonClear = document.getElementById('btn-clear');
@@ -28,7 +28,7 @@ $formAgregarTarea.addEventListener('submit', (event) => {
     }
     else {
         $formAgregarTarea.childNodes[1].value = '';
-        todoList.agregarTarea(nombreTarea.toString());
+        todoList.agregarTarea(nombreTarea);
         actualizarAlmacenamiento(todoList.obtenerTareas);
         todoList.listarTareas();
         Swal.fire({

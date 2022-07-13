@@ -2,11 +2,12 @@ export { getOrCreateWorks };
 import { Tarea } from '../clases/tarea.js';
 
 function getOrCreateWorks() {
-    let listadoTareas: any | Tarea[] = window.localStorage.getItem('tareas');
+    let listadoTareas: Tarea[] = [];
 
-    if (listadoTareas === null) {
-        listadoTareas = [];
-        window.localStorage.setItem('tareas', JSON.stringify(listadoTareas));
+    for (let key of Object.keys(window.localStorage)) {
+        let tarea = window.localStorage.getItem(key);
+
+        listadoTareas.push(JSON.parse(tarea));
     }
 
     return listadoTareas;
