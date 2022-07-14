@@ -3,9 +3,9 @@ import { actualizarAlmacenamiento } from "./helpers/actualizar-almacenamiento.js
 import { getOrCreateWorks } from "./helpers/obtener-o-crear-tareas.js";
 const $containerListTareas = document.getElementById('container-list-tareas');
 const todoList = new TodoList($containerListTareas, getOrCreateWorks());
-todoList.listarTareas();
 const $formAgregarTarea = document.getElementById('form-add-tarea');
 const $buttonClear = document.getElementById('btn-clear');
+todoList.listarTareas();
 $formAgregarTarea.addEventListener('submit', (event) => {
     event.preventDefault();
     const datos = new FormData(event.currentTarget);

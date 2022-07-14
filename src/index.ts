@@ -4,18 +4,16 @@ import { getOrCreateWorks } from "./helpers/obtener-o-crear-tareas.js";
 
 const $containerListTareas: HTMLElement = document.getElementById('container-list-tareas');
 const todoList: TodoList = new TodoList($containerListTareas, getOrCreateWorks());
-
-todoList.listarTareas();
-
 const $formAgregarTarea: any = document.getElementById('form-add-tarea');
 const $buttonClear: HTMLElement = document.getElementById('btn-clear');
+
+todoList.listarTareas();
 
 // Agregar tarea
 $formAgregarTarea.addEventListener('submit', (event: Event) => {
     event.preventDefault();
 
     const datos: FormData = new FormData(event.currentTarget as HTMLFormElement);
-
     const nombreTarea: string = datos.get('nombre').toString().trim();
 
     if (nombreTarea === '') {

@@ -17,33 +17,37 @@
 <body>
     <main class="main">
         <header class="header">
-            <h1>Todo App</h1>
+            <h1 class="header__title">Todo App</h1>
         </header>
 
         <article>
-            <h2>Agregar tarea</h2>
-            <form id="form-add-tarea" method="post">
-                <input type="text" placeholder="Nombre de la tarea..." name="nombre" autofocus>
+            <form id="form-add-tarea" method="post" class="container-form-add-work">
+                <input type="text" placeholder="Nombre de la tarea..." name="nombre" autofocus class="container-form-add-work__input">
 
-                <button>Agregar tarea</button>
+                <button class="container-form-add-work__btn">
+                    Agregar tarea
+                </button>
             </form>
         </article>
 
-        <article>
-            <h2>Tareas</h2>
-            <div id="container-list-tareas"></div>
-        </article>
+        <article class="container-works">
+            <section id="container-list-tareas"></section>
 
-        <article class="container-works-pending">
-            <p id="quantity-tareas-pendientes">Tienes 0 tareas pendientes</p>
+            <section class="container-works-pending">
+                <p id="quantity-tareas-pendientes" class="container-works-pending__paragraph">
+                    Tienes 0 tareas pendientes
+                </p>
 
-            <button id="btn-clear">Eliminar todo</button>
+                <button id="btn-clear" class="container-works-pending__btn">
+                    Eliminar todo
+                </button>
+            </section>
         </article>
     </main>
 
     <footer class="footer">
-        <p>
-            Creado por <a href="https://github.com/DanielAlfaro2222?tab=repositories">
+        <p class="footer__paragraph">
+            Creado por <a href="https://github.com/DanielAlfaro2222?tab=repositories" target="_blank" rel="noopener">
                 Daniel Alfaro
             </a>
         </p>
