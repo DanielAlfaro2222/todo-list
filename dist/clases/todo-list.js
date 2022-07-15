@@ -1,4 +1,5 @@
 import { actualizarAlmacenamiento } from '../helpers/actualizar-almacenamiento.js';
+import { createArticle, createButtonDelet, createButtonEdit, createDiv } from '../helpers/create-element.js';
 import { Tarea } from './tarea.js';
 export { TodoList };
 class TodoList {
@@ -18,11 +19,13 @@ class TodoList {
         this.contenedor.innerHTML = '';
         let counter = 1;
         for (let tarea of this.tareas) {
-            const $buttonDelet = document.createElement('button');
-            const $buttonEdit = document.createElement('button');
-            const $article = document.createElement('article');
-            const $buttonCancelEdit = document.createElement('button');
-            const $div = document.createElement('div');
+            const $buttonDelet = createButtonDelet();
+            const $buttonEdit = createButtonEdit();
+            const $article = createArticle(counter, tarea);
+            const $buttonCancelEdit = $article.querySelector('#cancel-edit');
+            const $div = createDiv(tarea);
+            $div.append($buttonEdit, $buttonDelet);
+            $article.append($div);
             $buttonDelet.addEventListener('click', () => {
                 Swal.fire({
                     title: '¿Estas seguro de eliminar esta tarea?',
@@ -40,35 +43,9 @@ class TodoList {
                     }
                 });
             });
-            $article.classList.add('container-work');
-            if (tarea.finalizada) {
-                $article.classList.add('container-work--complete');
-            }
-            else {
-                $article.classList.remove('container-work--complete');
-            }
-            $buttonDelet.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
-            $buttonEdit.innerHTML = '<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>';
-            $article.innerHTML = `<p>${counter}. ${tarea.nombre}</p>
-            <form method="post" class="hide" id="form-edit-work">
-                <input type="text" placeholder="Nombre tarea" value="${tarea.nombre}" name="nombre-tarea">
-                </input> 
-                <button>Editar tarea</button>
-            </form>`;
-            $buttonCancelEdit.textContent = 'Cancelar';
-            $buttonCancelEdit.classList.add('hide');
-            $div.classList.add('container-options-work');
-            $buttonDelet.classList.add('container-options-work__btn');
-            $buttonEdit.classList.add('container-options-work__btn');
-            $buttonDelet.classList.add('container-options-work__btn--delet');
-            $buttonEdit.classList.add('container-options-work__btn--edit');
-            $div.innerHTML = `<input type="checkbox" class="tarea-completada" ${(tarea.finalizada) ? "checked='true'" : ""}>
-            </input>`;
             $div.querySelector('.tarea-completada').addEventListener('click', () => {
                 this.completarTarea(tarea.id);
             });
-            $div.append($buttonEdit, $buttonDelet, $buttonCancelEdit);
-            $article.append($div);
             $buttonCancelEdit.addEventListener('click', () => {
                 $buttonDelet.classList.remove('hide');
                 $buttonEdit.classList.remove('hide');
@@ -76,14 +53,12 @@ class TodoList {
                 $article.querySelector('p').classList.remove('hide');
                 const $formEditarTarea = $article.querySelector('#form-edit-work');
                 $formEditarTarea.classList.add('hide');
-                $buttonCancelEdit.classList.add('hide');
             });
             $buttonEdit.addEventListener('click', () => {
                 $buttonDelet.classList.add('hide');
                 $buttonEdit.classList.add('hide');
                 $article.querySelector('.tarea-completada').classList.add('hide');
                 $article.querySelector('p').classList.add('hide');
-                $buttonCancelEdit.classList.remove('hide');
                 const $formEditarTarea = $article.querySelector('#form-edit-work');
                 this.modificarTarea(tarea.id, $formEditarTarea);
             });
@@ -111,7 +86,7 @@ class TodoList {
                     showConfirmButton: true,
                 });
             }
-            else if (this.verificarTareaExiste(nombreTarea.toLocaleLowerCase())) {
+            else if (this.verificarTareaExiste(nombreTarea.toLocaleLowerCase(), id)) {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
@@ -120,11 +95,11 @@ class TodoList {
                 });
             }
             else {
-                for (let tarea of this.tareas) {
+                this.tareas.forEach(tarea => {
                     if (tarea.id === id) {
                         tarea.nombre = nombreTarea;
                     }
-                }
+                });
                 actualizarAlmacenamiento(this.tareas);
                 this.listarTareas();
                 Swal.fire({
@@ -155,6 +130,7 @@ class TodoList {
     eliminarTarea(id) {
         this.tareas = this.tareas.filter(tarea => tarea.id !== id);
         actualizarAlmacenamiento(this.tareas);
+        this.mostrarCantidadTareasPendientes();
     }
     eliminarTodo() {
         this.tareas = [];
@@ -165,7 +141,9 @@ class TodoList {
         const quantity = this.obtenerTareasPendientes.length;
         document.getElementById('quantity-tareas-pendientes').textContent = `Tienes ${quantity} tareas pendientes`;
     }
-    verificarTareaExiste(nombre) {
-        return Boolean(this.tareas.find(tarea => tarea.nombre.toLocaleLowerCase() === nombre));
+    verificarTareaExiste(nombre, id = '') {
+        return Boolean(this.tareas.find(tarea => {
+            return tarea.nombre.toLocaleLowerCase() === nombre && tarea.id !== id;
+        }));
     }
 }

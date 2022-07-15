@@ -1,20 +1,24 @@
 :root {
-    --button-bgcolor-blue: #1aa179;
+    --button-bgcolor-green: #1aa179;
+    --button-bgcolor-red: #b02a37;
+    --linear-gradient: linear-gradient(to bottom, #1f69bd, #39a4f0);
+    --color-white: #f8f8f8;
+    --font-family: 'Source Sans Pro', sans-serif;
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: var(--font-family);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f8f8f8;
-    background-image: linear-gradient(to bottom, #1f69bd, #39a4f0)
+    background-color: var(--color-white);
+    background-image: var(--linear-gradient);
 }
 
 /* --------------------------------ESTILOS DEL HEADER-------------------------------- */
 .header {
     text-align: center;
-    color: #f8f8f8;
+    color: var(--color-white);
     letter-spacing: .7em;
     margin-bottom: 2.4em;
 }
@@ -31,17 +35,19 @@ body {
     border: none;
     padding-left: .8em;
     margin-bottom: 1.2em;
+    font-size: .9rem;
 }
 
 .container-form-add-work__btn {
     width: 140px;
-    background-color: var(--button-bgcolor-blue);
-    color: #f8f8f8;
+    background-color: var(--button-bgcolor-green);
+    color: var(--color-white);
     padding: .9em;
     border: none;
     outline: none;
     border-radius: 1em;
     cursor: pointer;
+    font-size: .9rem;
 }
 
 /* --------------------------------ESTILOS DEL MAIN-------------------------------- */
@@ -51,7 +57,7 @@ body {
 }
 
 .container-works {
-    background-color: #f8f8f8;
+    background-color: var(--color-white);
     border-radius: 1em;
     overflow: hidden;
     margin-top: 1.3em;
@@ -78,25 +84,46 @@ body {
     column-gap: .7em;
 }
 
-.container-options-work__btn {
+.container-options-work__btn,
+.container-form-edit-work__btn {
     border: none;
     outline: none;
-    font-size: 1rem;
+    font-size: 1.04rem;
+    background-color: transparent;
 }
 
-.container-options-work__btn--edit {
-    color: var(--button-bgcolor-blue);
+.container-options-work__btn--edit,
+.container-form-edit-work__btn--edit {
+    color: var(--button-bgcolor-green);
 }
 
-.container-options-work__btn--delet {
-    color: #b02a37;
+.container-options-work__btn--delet,
+.container-form-edit-work__btn--cancel {
+    color: var(--button-bgcolor-red);
+}
+
+.container-form-edit-work {
+    width: 100%;
+    display: flex;
+    column-gap: .5em;
+}
+
+.container-form-edit-work__input {
+    width: 90%;
+    max-width: 300px;
+    height: 33px;
+    padding-left: .7em;
+    border-radius: 1em;
+    outline: none;
+    border: none;
+    background-color: rgb(226, 226, 226);
 }
 
 .container-works-pending {
     display: flex;
     flex-direction: column;
     column-gap: 1.3em;
-    font-size: .94rem;
+    font-size: .9rem;
     padding-left: 1em;
     padding-bottom: 1em;
 }
@@ -111,10 +138,11 @@ body {
     border: none;
     border-radius: 1em;
     outline: none;
-    color: #f8f8f8;
-    background-color: #b02a37;
+    color: var(--color-white);
+    background-color: var(--button-bgcolor-red);
     margin-top: 1em;
     cursor: pointer;
+    font-size: .9rem;
 }
 
 /* --------------------------------ESTILOS DEL FOOTER-------------------------------- */
@@ -122,8 +150,8 @@ body {
     font-style: italic;
     text-align: center;
     margin-top: auto;
-    color: white;
-    font-size: 1.05rem;
+    color: var(--color-white);
+    font-size: 1.06rem;
     font-weight: bolder;
 }
 
@@ -139,8 +167,17 @@ body {
         align-items: center;
     }
 
-    .container-work {
+    .container-work,
+    .container-works-pending__btn,
+    .container-works-pending,
+    .container-form-add-work__input,
+    .container-form-add-work__btn {
         font-size: .93rem;
+    }
+
+    .container-options-work__btn,
+    .container-form-edit-work__btn {
+        font-size: 1.08rem;
     }
 
     .container-form-add-work__input {
@@ -163,13 +200,21 @@ body {
     }
 }
 
+@media screen and (min-width: 600px) {
+    .main {
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 @media screen and (min-width: 700px) {
     .main {
         padding: 1.6em;
     }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 900px) {
     .main {
         max-width: 800px;
         margin-left: auto;
